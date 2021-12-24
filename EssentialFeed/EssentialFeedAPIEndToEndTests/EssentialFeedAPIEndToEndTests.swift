@@ -42,10 +42,6 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
         )
     }
 
-    git remote add origin git@github.com:HithakshiKulal/EssentialFeed.git
-    git branch -M main
-    git push -u origin main
-
     private func getFeedResult(
         file: StaticString = #filePath,
         line: UInt = #line
