@@ -1,5 +1,0 @@
-os: osx
-osx_image: xcode13.0
-language: swift
-script:
-xcodebuild clean build test -project /Volumes/Development/LearningProjects\ /EssentialFeed/EssentialFeed/EssentialFeed.xcodeproj -scheme "CI" CODE_SIGN_IDENTITY="" CODE_SIGINING_REQUIRED=NO
