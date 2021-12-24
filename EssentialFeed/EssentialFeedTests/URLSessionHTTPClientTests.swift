@@ -160,10 +160,10 @@ class URLSessionHTTPClientTests: XCTestCase {
     var anyHTTPURLResponse: HTTPURLResponse {
         HTTPURLResponse(
             url: anyURL(),
-            mimeType: nil,
-            expectedContentLength: 0,
-            textEncodingName: nil
-        )
+            statusCode: 200,
+            httpVersion: nil,
+            headerFields: nil
+        )!
     }
 
     var nonHTTPURLResponse: URLResponse {
@@ -214,14 +214,15 @@ class URLSessionHTTPClientTests: XCTestCase {
         }
 
         override func startLoading() {
-            guard let stub = Self.stub else { return }
-            if let data = stub.data {
+            if let data = URLProtocolStub.stub?.data {
                 client?.urlProtocol(self, didLoad: data)
             }
-            if let response = stub.response {
+            
+            if let response = URLProtocolStub.stub?.response {
                 client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
             }
-            if let error = stub.error {
+            
+            if let error = URLProtocolStub.stub?.error {
                 client?.urlProtocol(self, didFailWithError: error)
             }
             client?.urlProtocolDidFinishLoading(self)
