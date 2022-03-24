@@ -40,6 +40,19 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         }
     }
     
+    func test_load_deliversCachedImagesOnLessThanSevenDaysCache() {
+        let fixedCurrentDate = Date()
+        let feed = uniqueImageFeed()
+        let (sut, store) = makeSUT()
+
+        let lessThanSevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7).adding(timeInterval: 1)
+        
+        expect(sut, toCompleteWith: .success(feed.models)) {
+            store.completeRetrieval(with: feed.local, timestamp: lessThanSevenDaysOldTimestamp)
+        }
+
+    }
+    
     // MARK: Helpers
 
     private func makeSUT(
@@ -89,4 +102,14 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         URL(string: "https://any-url.com")!
     }
     
+}
+
+extension Date {
+    func adding(days: Int) -> Self {
+        Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
+    }
+    
+    func adding(timeInterval: TimeInterval) -> Self {
+        self + timeInterval
+    }
 }
